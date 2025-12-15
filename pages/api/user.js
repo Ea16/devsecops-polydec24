@@ -12,13 +12,15 @@ export default async function handler(req, res) {
   });
 
   await client.connect();
-
+  
   const userId = req.body.id;
-  const text = 'SELECT * FROM users WHERE id = $1';
-  const values = [userId];
+  
+  if (!/^\d+$/.test(userId)) {
+    return res.status(400).json({ error: 'Invalid ID' });
+  }
   
   try {
-    const result = await client.query(text, values);
+    const result = await client.query('SELECT * FROM users WHERE id = $1', [userId]);
     res.status(200).json({ user: result.rows[0] });
   } catch (error) {
     res.status(500).json({ error: 'Database error' });
