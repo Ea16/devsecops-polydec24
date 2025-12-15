@@ -37,3 +37,4 @@ jobs:
             node-version: '18.x'
         - run: npm install
         - run: npm audit
+        - run: npm audit fix --force
