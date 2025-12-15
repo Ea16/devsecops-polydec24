@@ -13,13 +13,6 @@ export default async function handler(req, res) {
 
   await client.connect();
 
-  const result = await client.query(
-      "SELECT * FROM users WHERE ID = ?",
-      {
-        replacements: [rawId], 
-        type: client.QueryTypes.SELECT 
-      }
-    
   const userId = req.body.id;
   const text = 'SELECT * FROM users WHERE id = $1';
   const values = [userId];
