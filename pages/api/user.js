@@ -19,9 +19,13 @@ export default async function handler(req, res) {
         replacements: [rawId], 
         type: client.QueryTypes.SELECT 
       }
+    
+  const userId = req.body.id;
+  const text = 'SELECT * FROM users WHERE id = $1';
+  const values = [userId];
   
   try {
-    const result = await client.query(query);
+    const result = await client.query(text, values);
     res.status(200).json({ user: result.rows[0] });
   } catch (error) {
     res.status(500).json({ error: 'Database error' });
